@@ -78,13 +78,13 @@ module.exports = {
     try {
       const user = await User.findOne({ username: req.params.id })
       if (user) {
-        res.status(403).json({
+        res.status(200).json({
           isUsername: true,
           message: 'Username already exists',
         })
       } else {
         res
-          .status(403)
+          .status(200)
           .json({ isUsername: false, message: 'Username not exists' })
       }
     } catch {
