@@ -92,7 +92,7 @@ module.exports = {
     }
   },
   userCount: async (req, res) => {
-    const totalUser = await User.find({}).count()
+    const totalUser = await User.find({}).countDocuments()
     res.status(200).json(totalUser)
   },
 }
