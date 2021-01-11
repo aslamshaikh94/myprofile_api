@@ -8,6 +8,9 @@ const ContacntInfoSchema = Schema(
       type: String,
       required: 'Name is required',
     },
+    username: {
+      type: String,
+    },
     designation: {
       type: String,
       required: 'Designation',
@@ -40,4 +43,4 @@ const ContacntInfoSchema = Schema(
   { timestamps: true },
 )
 
-module.exports = Userinfo = mongoose.model('ContactInfo', ContacntInfoSchema)
+module.exports = ContactInfo = mongoose.model('ContactInfo', ContacntInfoSchema)

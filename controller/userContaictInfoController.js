@@ -1,41 +1,23 @@
-const { findOne } = require('../models/ContactInfo')
 const ContactInfo = require('../models/ContactInfo')
 
 module.exports = {
   setContaictInfo: async (req, res) => {
-    const {
-      _id,
-      name,
-      designation,
-      email,
-      mobile,
-      address,
-      gitlink,
-      linkedin,
-    } = req.body
+    const { contactInfo } = req.body
+    const { _id } = contactInfo
 
     const isId = await ContactInfo.findOne({ _id })
 
     if (isId) {
-      const ConInfo = await ContactInfo.findOneAndUpdate(
-        { _id },
-        { name, designation, email, mobile, address, gitlink, linkedin },
-        {
-          new: true,
-        },
-      )
+      const ConInfo = await ContactInfo.findOneAndUpdate({ _id }, contactInfo, {
+        new: true,
+      })
       res.status(200).json({ contactInfo: ConInfo })
     } else {
       const user = await User.findOne({ _id: req.user.id })
 
       const ConInfo = new ContactInfo({
-        name,
-        designation,
-        email,
-        mobile,
-        address,
-        gitlink,
-        linkedin,
+        ...contactInfo,
+        username: user.username,
         user: user._id,
       })
 

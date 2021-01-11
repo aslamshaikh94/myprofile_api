@@ -1,11 +1,16 @@
 const express = require('express')
 const verifyToken = require('../middleware/verifyToken')
 
-const { getUserDetails } = require('../controller/userDetailsController')
+const {
+  getUserDetails,
+  getUsersContactList,
+} = require('../controller/userDetailsController')
+
 const {
   setContaictInfo,
   getUserContactInfo,
 } = require('../controller/userContaictInfoController')
+
 const { setUserSkills } = require('../controller/userSkillsController')
 const { setUserLanguages } = require('../controller/UserLanguagesController')
 const {
@@ -18,12 +23,14 @@ const {
   deleteUserEducation,
 } = require('../controller/userEducationController')
 
+const { setUserProject } = require('../controller/userProjectController')
+
 const app = express()
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/:id', getUserDetails)
+app.get('/profile/:id', getUserDetails)
 
 app.post('/contactinfo', verifyToken, setContaictInfo)
 
@@ -36,6 +43,10 @@ app.delete('/employment/:id', verifyToken, deleteUserEmployment)
 
 app.post('/education', verifyToken, setUserEducation)
 app.delete('/education/:id', verifyToken, deleteUserEducation)
+
+app.post('/project', verifyToken, setUserProject)
+
+app.post('/userslist', getUsersContactList)
 
 app.get('/:id', getUserContactInfo)
 
