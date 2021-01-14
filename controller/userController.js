@@ -8,7 +8,7 @@ module.exports = {
     const { username, email, password } = req.body
     const saltRounds = 10
     try {
-      let user = await User.findOne({ email: email })
+      let user = await User.find({ email, username })
       if (!user) {
         bcrypt.genSalt(saltRounds, (err, salt) => {
           bcrypt.hash(password, salt, async (err, hash) => {
@@ -37,10 +37,10 @@ module.exports = {
           })
         })
       } else {
-        res.status(204).json({ message: 'User already exists' })
+        res.status(400).json({ message: 'User already exists' })
       }
     } catch (error) {
-      res.status(404).json({ message: error })
+      res.status(400).json({ message: error })
     }
   },
   userSignIn: async (req, res) => {
@@ -68,27 +68,22 @@ module.exports = {
           res.status(400).json({ message: 'Password is not valid' })
         }
       } else {
-        res.status(400).json({ message: 'User not exits' })
+        res.status(400).json({ message: 'User not found' })
       }
     } catch (error) {
-      res.status(404).json({ message: error })
+      res.status(400).json({ message: error })
     }
   },
   isUserNameExists: async (req, res) => {
     try {
       const user = await User.findOne({ username: req.params.id })
       if (user) {
-        res.status(200).json({
-          isUsername: true,
-          message: 'Username already exists',
-        })
+        res.status(200).json({ isUsername: true })
       } else {
-        res
-          .status(200)
-          .json({ isUsername: false, message: 'Username not exists' })
+        res.status(200).json({ isUsername: false })
       }
     } catch {
-      res.status(404).json({ message: 'Not Found' })
+      res.status(400).json({ message: 'Not Found' })
     }
   },
   userCount: async (req, res) => {

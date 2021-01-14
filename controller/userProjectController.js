@@ -20,4 +20,10 @@ module.exports = {
       res.status(200).json(projects)
     }
   },
+  deleteUserProject: async (req, res) => {
+    const { id } = req.params
+    const { _id } = await UserProject.findOneAndDelete({ _id: id })
+
+    res.status(200).json({ _id })
+  },
 }

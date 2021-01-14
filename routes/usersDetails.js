@@ -23,7 +23,10 @@ const {
   deleteUserEducation,
 } = require('../controller/userEducationController')
 
-const { setUserProject } = require('../controller/userProjectController')
+const {
+  setUserProject,
+  deleteUserProject,
+} = require('../controller/userProjectController')
 
 const app = express()
 
@@ -45,6 +48,7 @@ app.post('/education', verifyToken, setUserEducation)
 app.delete('/education/:id', verifyToken, deleteUserEducation)
 
 app.post('/project', verifyToken, setUserProject)
+app.delete('/project/:id', verifyToken, deleteUserProject)
 
 app.post('/userslist', getUsersContactList)
 
