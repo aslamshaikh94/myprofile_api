@@ -9,7 +9,8 @@ module.exports = {
     const saltRounds = 10
     try {
       let user = await User.find({ email, username })
-      if (!user) {
+
+      if (!user.length) {
         bcrypt.genSalt(saltRounds, (err, salt) => {
           bcrypt.hash(password, salt, async (err, hash) => {
             user = new User({

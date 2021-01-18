@@ -27,7 +27,7 @@ mongoose.connect(
     useCreateIndex: true,
   },
   (err) => {
-    if (err) {
+    if (('Error', err)) {
       console.log(err)
     } else {
       console.log('connected')
