@@ -1,4 +1,11 @@
 const ContactInfo = require('../models/ContactInfo')
+const cloudinary = require('cloudinary')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+})
 
 module.exports = {
   setContaictInfo: async (req, res) => {
@@ -36,6 +43,20 @@ module.exports = {
       }
     } catch {
       res.status(400).json({ message: 'Something went wrong' })
+    }
+  },
+  uploadUserPhoto: async (req, res) => {
+    let { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+      req.body.imgUrl,
+      {
+        format: 'jpeg',
+      },
+    )
+    try {
+      const userPhoto = { imgUrl: secure_url, id: public_id }
+      res.status(200).json({ userPhoto })
+    } catch (err) {
+      res.status(400).json(err)
     }
   },
 }

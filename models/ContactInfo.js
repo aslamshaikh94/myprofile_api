@@ -4,6 +4,10 @@ const Schema = mongoose.Schema
 
 const ContacntInfoSchema = Schema(
   {
+    userPhoto: {
+      type: Object,
+      required: 'Photo is required',
+    },
     name: {
       type: String,
       required: 'Name is required',

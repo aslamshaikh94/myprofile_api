@@ -7,36 +7,49 @@ module.exports = {
   userSignUp: async (req, res) => {
     const { username, email, password } = req.body
     const saltRounds = 10
+
+    const creatNewUser = async (hash) => {
+      try {
+        user = new User({
+          username,
+          email,
+          password: hash,
+        })
+        let newuser = await user.save()
+        if (newuser) {
+          let { _id, username } = newuser
+          jwt.sign(
+            { id: _id },
+            SECRETKEY,
+            /*{ expiresIn: 3600 },*/ (err, token) => {
+              if (token) {
+                res.status(200).json({
+                  id: _id,
+                  username,
+                  token,
+                })
+              }
+            },
+          )
+        }
+      } catch (error) {
+        res.status(400).json({ message: error })
+      }
+    }
+
     try {
       let user = await User.find({ email, username })
 
       if (!user.length) {
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-          bcrypt.hash(password, salt, async (err, hash) => {
-            user = new User({
-              username: username,
-              email: email,
-              password: hash,
+        try {
+          bcrypt.genSalt(saltRounds, (err, salt) => {
+            bcrypt.hash(password, salt, async (err, hash) => {
+              creatNewUser(hash)
             })
-            let newuser = await user.save()
-            if (newuser) {
-              let { _id, username } = newuser
-              jwt.sign(
-                { id: _id },
-                SECRETKEY,
-                /*{ expiresIn: 3600 },*/ (err, token) => {
-                  if (token) {
-                    res.status(200).json({
-                      id: _id,
-                      username,
-                      token,
-                    })
-                  }
-                },
-              )
-            }
           })
-        })
+        } catch (err) {
+          res.status(400).json({ message: err })
+        }
       } else {
         res.status(400).json({ message: 'User already exists' })
       }

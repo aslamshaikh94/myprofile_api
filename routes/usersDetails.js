@@ -9,6 +9,7 @@ const {
 const {
   setContaictInfo,
   getUserContactInfo,
+  uploadUserPhoto,
 } = require('../controller/userContaictInfoController')
 
 const { setUserSkills } = require('../controller/userSkillsController')
@@ -51,6 +52,8 @@ app.post('/project', verifyToken, setUserProject)
 app.delete('/project/:id', verifyToken, deleteUserProject)
 
 app.post('/userslist', getUsersContactList)
+
+app.post('/profilephoto', uploadUserPhoto)
 
 app.get('/:id', getUserContactInfo)
 

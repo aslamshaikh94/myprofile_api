@@ -4,6 +4,7 @@ const path = require('path')
 require('dotenv').config()
 
 const app = express()
+app.use(express.json({ limit: '1mb' }))
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
@@ -27,8 +28,8 @@ mongoose.connect(
     useCreateIndex: true,
   },
   (err) => {
-    if (('Error', err)) {
-      console.log(err)
+    if (err) {
+      console.log('Error Faild')
     } else {
       console.log('connected')
     }
