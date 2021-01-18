@@ -5,6 +5,7 @@ module.exports = {
     const usersList = await ContactInfo.find(
       {},
       {
+        userPhoto: 1,
         username: 1,
         name: 1,
         user: 1,
