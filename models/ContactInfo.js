@@ -38,6 +38,9 @@ const ContacntInfoSchema = Schema(
     linkedin: {
       type: String,
     },
+    personalInfo: {
+      type: Boolean,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
