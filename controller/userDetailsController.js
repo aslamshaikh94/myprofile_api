@@ -14,11 +14,20 @@ const isPersonalInfo = (contactInfo) => {
   return contactInfo
 }
 
+const isPrivateInfo = async (list = []) => {
+  return list.map((item) => {
+    return item.personalInfo
+      ? item
+      : Object.assign(item, { ...item, userPhoto: '', address: 'xxxxxxxxxx' })
+  })
+}
+
 module.exports = {
   getUsersContactList: async (req, res) => {
-    const usersList = await ContactInfo.find(
+    const list = await ContactInfo.find(
       {},
       {
+        personalInfo: 1,
         userPhoto: 1,
         username: 1,
         name: 1,
@@ -27,6 +36,7 @@ module.exports = {
         address: 1,
       },
     )
+    const usersList = await isPrivateInfo(list)
 
     res.status(200).json(usersList)
   },
