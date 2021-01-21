@@ -104,8 +104,8 @@ module.exports = {
     process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
     const token = crypto.randomBytes(32).toString('hex')
 
-    const { email, username } = req.body
-    const { _id } = (await User.findOne({ email, username })) || {}
+    const { email } = req.body
+    const { _id } = (await User.findOne({ email })) || {}
 
     await User.findOneAndUpdate({ _id }, { token }, { new: true })
 
