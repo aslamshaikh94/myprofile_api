@@ -17,6 +17,9 @@ const userSchema = new Schema(
       type: String,
       required: 'Password is required',
     },
+    token: {
+      type: String,
+    },
     contacntinfo: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ContactInfo',

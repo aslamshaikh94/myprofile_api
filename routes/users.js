@@ -8,6 +8,8 @@ const {
   userSignIn,
   isUserNameExists,
   userCount,
+  sendForgotPassword,
+  resetPassword,
 } = require('../controller/userController')
 
 app.use(express.urlencoded({ extended: true }))
@@ -21,6 +23,12 @@ app.post('/signin', userSignIn)
 
 // User cout route
 app.get('/usercout', userCount)
+
+// Forgot password
+app.post('/forgotpassword', sendForgotPassword)
+
+// Reset password
+app.post('/resetpassword', resetPassword)
 
 // Check is username exists route
 app.get('/:id', isUserNameExists)
