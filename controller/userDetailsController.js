@@ -65,4 +65,27 @@ module.exports = {
       res.status(404).json({ message: 'User not found' })
     }
   },
+  getLoginUserDetails: async (req, res) => {
+    try {
+      const _id = req.user.id
+
+      const contactInfo = (await ContactInfo.findOne({ user: _id })) || {}
+      const skills = (await UserSkills.findOne({ user: _id })) || []
+      const languages = (await UserLanguages.findOne({ user: _id })) || []
+      const employments = (await UserEmployment.find({ user: _id })) || []
+      const educations = (await UserEducation.find({ user: _id })) || []
+      const projects = (await UserProject.find({ user: _id })) || []
+
+      res.status(200).json({
+        contactInfo,
+        skills,
+        languages,
+        employments,
+        educations,
+        projects,
+      })
+    } catch (err) {
+      res.status(404).json({ message: 'User not found' })
+    }
+  },
 }

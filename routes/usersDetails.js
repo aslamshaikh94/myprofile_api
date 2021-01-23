@@ -4,6 +4,7 @@ const verifyToken = require('../middleware/verifyToken')
 const {
   getUserDetails,
   getUsersContactList,
+  getLoginUserDetails,
 } = require('../controller/userDetailsController')
 
 const {
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.get('/profile/:id', getUserDetails)
+app.get('/profile', verifyToken, getLoginUserDetails)
 
 app.post('/contactinfo', verifyToken, setContaictInfo)
 
