@@ -46,13 +46,15 @@ module.exports = {
     }
   },
   uploadUserPhoto: async (req, res) => {
-    let { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-      req.body.imgUrl,
-      {
-        format: 'jpeg',
-      },
-    )
+    const { imgUrl } = req.body
     try {
+      let { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+        imgUrl,
+        {
+          format: 'jpeg',
+          width: 400,
+        },
+      )
       const userPhoto = { imgUrl: secure_url, id: public_id }
       res.status(200).json({ userPhoto })
     } catch (err) {
