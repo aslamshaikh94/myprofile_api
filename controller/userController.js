@@ -37,20 +37,22 @@ module.exports = {
     }
 
     try {
-      let user = await User.find({ email, username })
+      let user = await User.findOne({ email })
+      let userName = await User.findOne({ username })
 
-      if (!user.length) {
+      if (!user && !userName) {
         try {
           const hash = bcrypt.hashSync(password, saltRounds)
           if (hash) creatNewUser(hash)
         } catch (err) {
-          res.status(400).json({ message: err })
+          res.status(400).json({ message: 'Something went wrong' })
         }
       } else {
         res.status(400).json({ message: 'User already exists' })
       }
-    } catch (error) {
-      res.status(400).json({ message: error })
+    } catch (err) {
+      console.log(err)
+      res.status(400).json({ message: 'Something went wrong' })
     }
   },
 
