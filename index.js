@@ -50,7 +50,7 @@ const usersinfo = require('./routes/usersDetails')
 app.use('/userdetails', usersinfo)
 
 // Server setup
-const PORT = process.env.APP_PORT || 8850
+const PORT = process.env.APP_PORT || 3000
 app.listen(PORT, () => {
   console.log('Server is running ' + PORT)
 })
